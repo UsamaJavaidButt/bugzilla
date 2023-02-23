@@ -14,12 +14,9 @@ class BugsController < ApplicationController
   end
 
   def create
-    debugger
     bug_params = params.require(:bug).permit(:title, :description, :deadline, :type_value, :status, :avatar,
                                              :project_id, :creator_id, :developer_id)
     @bug = Bug.new(bug_params)
-
-    puts "@bug: #{bug_params.inspect}"
     @bug.project_id = params[:project_id]
     @bug.creator_id = current_user.id
     @assign_to = []
