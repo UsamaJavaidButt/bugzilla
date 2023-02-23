@@ -52,13 +52,13 @@
     const typeSelector = document.querySelector("#type-selector");
     const statusSelector = document.querySelector("#status-selector");
     typeSelector.addEventListener("change", function() {
-      if (this.value === "Feature") {
+      if (this.value == "Feature") {
         statusSelector.innerHTML = `
           <option value="New">New</option>
           <option value="Started">Started</option>
           <option value="Completed">Completed</option>
         `;
-      } else if (this.value === "Bug") {
+      } else if (this.value == "Bug") {
         statusSelector.innerHTML = `
           <option value="New">New</option>
           <option value="Started">Started</option>
