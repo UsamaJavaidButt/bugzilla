@@ -1,0 +1,23 @@
+<h1><%= @project.title %></h1>
+<hr/>
+<% @bugs.each do |bug|%>
+  <tr>
+    <p>
+      <td>Title:<%=bug.title%></td>
+    </p>
+    <p>
+      <td>Description: <%=bug.description%></td>
+    </p>
+    <p>
+      <td>Deadline:<%=bug.deadline%></td>
+    </p>
+    <p>
+      <td>Type:<%= bug.type_value%></td>
+    </p>
+    <p>
+      <td>Status:<%= bug.status%></td>
+    </p>
+  </tr>
+  <hr/>
+<% end %>
+<p><%= link_to "Back",projects_path,:class=>"btn btn-outline-primary"%></p>

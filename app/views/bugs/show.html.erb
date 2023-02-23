@@ -1,0 +1,8 @@
+<h1>Title: <%= @bugs.title %></h1>
+<em>Description: <%= @bugs.description %></em>
+<p>Deadline: <%= @bugs.deadline %></p>
+<p>Bug Type: <%= @bugs.type_value%></p>
+<p>Status: <%= @bugs.status %></p>
+<p>Assign to: <%= @bugs.developer.name%></p>
+<p>Creator: <%= @bugs.creator.name%></p>
+<%= link_to "Back" ,project_bugs_path ,:class=>"btn btn-outline-primary"%>

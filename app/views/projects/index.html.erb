@@ -1,0 +1,38 @@
+<h1>Hi,<%=current_user.first_name  if current_user%></h1>
+<h2>Welcome to Buggzilla </h2>
+<hr/>
+<h1> Projects</h1>
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+<% if flash[:alert] %>
+  <div class="alert"><%= flash[:alert] %></div>
+<% end %>
+<% if can? :create, Project %>
+  <%= link_to "Create New Project", new_project_path,:class=>"btn btn-secondary mx-5" %>
+<% end %>
+<table class="table table-lg table-striped ml-4 mx-5 table-bordered" style="max-width: 70rem;">
+  <thead>
+    <tr>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @projects.each do |project|%>
+      <tr class="align-middle">
+        <td><%=project.title %></td>
+        <% if can? :update, :destroy , :read,Project %>
+          <td class="text-center"><%= link_to "Show", project_path(project),:class=>"btn btn-outline-primary" %></td>
+          <td class="text-center"><%= link_to "Edit", edit_project_path(project),:class=>"btn btn-outline-primary" %></td>
+          <td class="text-center"><%= link_to "Delete Project Item", project_path(project) , :class=>"btn btn-outline-primary", data: {
+        turbo_method: :delete,
+        turbo_confirm: "Are you sure?"
+      } %></td>
+        <% end %>
+        <td class="text-center"><%= link_to "Project Bugs", project_bugs_path(project),:class=>"btn btn-outline-primary"%></td>
+        <td class="text-center"><%= link_to "Project Users", project_users_path(project),:class=>"btn btn-outline-primary"%></td>
+      </tr>
+    </tr>
+  <% end %>
+</tbody>
+</table>

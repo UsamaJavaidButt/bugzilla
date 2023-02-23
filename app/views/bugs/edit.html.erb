@@ -1,0 +1,43 @@
+<h1> Edit this Bug item</h1>
+<%= form_for(@bug, url:"/projects/project_id/bugs/#{@bug.id}") do |f| %>
+  <div class="form-group row col-md-7 px-5">
+    <div class="form-group">
+      <%= f.label :title , :class=>"col-form-label col-md-1"%>
+      <%= f.text_field :title, :class => 'col-md-1 form-control', :required => true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :description , :class=>"col-form-label col-md-1"%>
+      <%= f.text_area :description,  :autocomplete => 'off', :class => 'form-control col-md-1' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :deadline ,:class=>"col-form-label col-md-1"%>
+      <%= f.select :deadline, ((Date.today)...(Date.today + 2.months)).map{ |date| [date.strftime("%d %B %Y"), date] }, {} %>
+    </div>
+    <div class="form-group">
+      <%= f.label :type_value, :class=>" col-form-label col-md-1"%>
+      <%= f.radio_button(:type_value, 'Feature') %>
+      <%= label(:type_value,"Feature") %>
+      <%= f.radio_button(:type_value, "Bug") %>
+      <%= label(:type_value, "Bug") %>
+    </div>
+    <div class="form-group">
+      <%= f.label :Status %>
+      <% if @bug.type_value == 'Bug' %>
+        <%= f.select :status,  ["New", "Started", "Resolved"]%>
+      <% end %>
+      <% if @bug.type_value == 'Feature'%>
+        <%= f.select :status, ["New", "Started", "Completed"] %>
+      <% end %>
+      <div class="form-group">
+        <%= f.label :Developer,:class=>" col-form-label col-md-1" %>
+        <%= f.collection_select :developer_id,  @assign_to,  :id,:name%>
+      </div>
+      <div class="form-group">
+        <%= f.label "ScreenShot", :class=>"col-form-label"%>
+        <%= f.file_field :avatar,:class => "form-control",:accept => "image/x-png,image/gif"%>
+      </div>
+      <div class="actions">
+        <%= f.submit :class => 'float-right btn btn-outline-primary'%>
+      </div>
+    </div>
+  <% end %>

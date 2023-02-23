@@ -1,0 +1,70 @@
+<h1> Create a new Bug</h1>
+<% if @bug.errors.any? %>
+  <% @bug.errors.full_messages.each do |message|%>
+    <h3><%= message %></h3>
+  <% end %>
+<% end %>
+<%= form_for(@bug, url: project_bugs_path) do |f| %>
+  <div class="form-group row col-md-6 px-5">
+    <div class="form-group">
+      <%= f.label :title , :class=>"col-form-label col-md-1"%>
+      <%= f.text_field :title, :class => 'col-md-1 form-control', :required => true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :description , :class=>"col-form-label col-md-1"%>
+      <%= f.text_area :description,  :autocomplete => 'off', :class => 'form-control col-md-1' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :deadline ,:class=>"col-form-label col-md-1"%>
+      <%= f.select :deadline, ((Date.today)...(Date.today + 2.months)).map{ |date| [date.strftime("%d %B %Y"), date] }, {} %>
+    </div>
+    <div>
+      <%= f.label :type, :class=>"col-form-label col-md-1"%>
+      <% types = ['Feature', 'Bug'] %>
+      <% statuses = ['New', 'Started', 'Completed'] %>
+      <select name="bug[type_value]" id="type-selector">
+        <% types.each do |type| %>
+          <option value="<%= type %>"><%= type %></option>
+        <% end %>
+      </select><br>
+      <%= f.label :status %><br>
+      <select name="bug[status]" id="status-selector">
+        <% statuses.each do |status| %>
+          <option value="<%= status %>"><%= status %></option>
+        <% end %>
+      </select><br>
+    </div>
+    <div class="form-group">
+      <%= f.label :Developer ,:class=>"col-form-label col-md-2"%>
+      <%= f.collection_select :developer_id,  @assign_to,  :id,:name , :class => 'form-control col-md-1'%>
+    </div>
+    <div class="form-group">
+      <%= f.label "ScreenShot", :class=>"col-form-label"%>
+      <%= f.file_field :avatar,:class => "form-control",:accept => "image/x-png,image/gif"%>
+    </div>
+    <div class="actions">
+      <%= f.submit :class => 'float-right btn btn-outline-primary'%>
+    </div>
+  </div>
+<% end %>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const typeSelector = document.querySelector("#type-selector");
+    const statusSelector = document.querySelector("#status-selector");
+    typeSelector.addEventListener("change", function() {
+      if (this.value === "Feature") {
+        statusSelector.innerHTML = `
+          <option value="New">New</option>
+          <option value="Started">Started</option>
+          <option value="Completed">Completed</option>
+        `;
+      } else if (this.value === "Bug") {
+        statusSelector.innerHTML = `
+          <option value="New">New</option>
+          <option value="Started">Started</option>
+          <option value="Resolved">Resolved</option>
+        `;
+      }
+    });
+  });
+</script>
